@@ -1,3 +1,7 @@
+
+# Created by https://www.gitignore.io/api/delphi,freepascal
+
+### Delphi ###
 # Uncomment these types if you want even more clean repository. But be careful.
 # It can make harm to an existing project source. Read explanations below.
 #
@@ -64,3 +68,18 @@ __recovery/
 
 # Castalia statistics file (since XE7 Castalia is distributed with Delphi)
 *.stat
+
+### FreePascal ###
+*.lps
+*.compiled
+*.[oa]
+*.ppu
+*.rst
+*.cgi
+*.log
+*.bak*
+fp.ini
+fp.cfg
+fp.dsk
+
+# End of https://www.gitignore.io/api/delphi,freepascal
