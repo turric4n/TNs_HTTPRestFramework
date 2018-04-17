@@ -30,7 +30,13 @@ begin
   froute.Name := 'default';
   froute.IsDefault := True;
   froute.RelativePath := '/';
+  {$IFNDEF FPC}
   froute.Methods := ['GET', 'POST'];
+  {$ELSE}
+  SetLength(froute.Methods, 2);
+  froute.Methods[0] := 'GET';
+  froute.Methods[1] := 'POST';
+  {$ENDIF}
 end;
 
 function TRestDefaultController.ProcessRequest(Request: THTTPRestRequest): Cardinal;

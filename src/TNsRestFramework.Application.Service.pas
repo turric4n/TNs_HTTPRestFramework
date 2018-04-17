@@ -1,10 +1,19 @@
 unit TNsRestFramework.Application.Service;
 
+{$IFDEF FPC}
+  {$MODE Delphi}
+{$ENDIF}
+
 interface
 
 uses
-  Quick.Commons,
+{$IFnDEF FPC}
   System.SysUtils, System.Types,
+{$ELSE}
+  Sysutils,
+  Types,
+{$ENDIF}
+  Quick.Commons,
   TNsRestFramework.Application.Controllers,
   TNsRestFramework.Infrastructure.TaskFactory,
   TNsRestFramework.Infrastructure.HTTPServerFactory,

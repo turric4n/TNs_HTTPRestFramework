@@ -3,7 +3,11 @@ unit TNsRestFramework.Infrastructure.HTTPRestRequest;
 interface
 
 uses
+  {$IFNDEF FPC}
   System.SysUtils,
+  {$ELSE}
+  Sysutils,
+  {$ENDIF}
   SynCommons,
   SynCrtSock,
   TNsRestFramework.Infrastructure.HTTPRequest;

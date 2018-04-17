@@ -3,15 +3,24 @@
 interface
 
 uses
+  {$IFNDEF FPC}
   System.SysUtils,
+  System.Generics.Collections,
+  {$ELSE}
+  Sysutils,
+  fgl,
+  {$ENDIF}
   TNsRestFramework.Infrastructure.HTTPController,
   TNsRestFramework.Infrastructure.HTTPRouting,
-  TNsRestFramework.Infrastructure.HTTPRestRequest,
-  System.Generics.Collections;
+  TNsRestFramework.Infrastructure.HTTPRestRequest;
 
 type
   IHTTPControllerHandler = interface['{8E24401C-372C-4255-AE34-51FC06DB8212}']
+    {$IFNDEF FPC}
     function GetControllers : TList<IController>;
+    {$ELSE}
+    function GetControllers : TFPGList<IController>;
+    {$ENDIF}
     function GetCurrentController(Request : THTTPRestRequest) : IController;
     procedure Add(Controller : IController);
     procedure Remove(Controller : IController);
@@ -19,11 +28,19 @@ type
 
   THTTPControllerHandler = class(TInterfacedObject, IHTTPControllerHandler)
     private
+      {$IFNDEF FPC}
       fcontrollers : TList<IController>;
+      {$ELSE}
+      fcontrollers : TFPGList<IController>;
+      {$ENDIF}
     public
       constructor Create;
       function GetCurrentController(Request : THTTPRestRequest) : IController;
+      {$IFNDEF FPC}
       function GetControllers : TList<IController>;
+      {$ELSE}
+      function GetControllers : TFPGList<IController>;
+      {$ENDIF}
       procedure Add(Controller : IController);
       procedure Remove(Controller : IController);
   end;
@@ -76,13 +93,24 @@ end;
 
 constructor THTTPControllerHandler.Create;
 begin
+  {$IFNDEF FPC}
   fcontrollers := TList<IController>.Create;
+  {$ELSE}
+  fcontrollers := TFPGList<IController>.Create;
+  {$ENDIF}
 end;
 
+{$IFNDEF FPC}
 function THTTPControllerHandler.GetControllers: TList<IController>;
 begin
   Result := fcontrollers;
 end;
+{$ELSE}
+function THTTPControllerHandler.GetControllers: TFPGList<IController>;
+begin
+  Result := fcontrollers;
+end;
+{$ENDIF}
 
 function THTTPControllerHandler.GetCurrentController(Request : THTTPRestRequest) : IController;
 var

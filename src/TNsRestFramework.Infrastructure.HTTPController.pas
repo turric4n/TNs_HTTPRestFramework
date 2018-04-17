@@ -5,9 +5,14 @@ interface
 uses
   SynCommons,
   SynCrtSock,
+  {$IFNDEF FPC}
   System.IOUtils,
   System.SysUtils,
   System.Generics.Collections,
+  {$ELSE}
+  sysutils,
+  {$ENDIF}
+  fgl,
   TNsRestFramework.Infrastructure.HTTPRestRequest,
   TNsRestFramework.Infrastructure.HTTPRequest,
   TNsRestFramework.Infrastructure.HTTPRouting;
@@ -36,7 +41,11 @@ type
 
   THTTPStaticController = class(THTTPController, IStaticController)
     protected
+      {$IFNDEF FPC}
       fstaticextensions : TDictionary<string,string>;
+      {$ELSE}
+      fstaticextensions : TFPGMap<string,string>;
+      {$ENDIF}
       fstaticdirectory : string;
     public
       function CanIHandleThis(const Filename : String) : Boolean; virtual; abstract;

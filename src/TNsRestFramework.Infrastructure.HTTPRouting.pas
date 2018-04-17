@@ -4,9 +4,15 @@ interface
 
 uses
   SynCommons,
-  System.Generics.Collections,
-  System.JSON.Serializers,
-  System.SysUtils;
+  {$IFNDEF FPC}
+    System.Generics.Collections,
+    System.JSON.Serializers,
+    System.SysUtils;
+  {$ELSE}
+    {$M+}
+    sysutils,
+    fgl;
+  {$ENDIF}
 
 type
   THTTPRoute = class
@@ -15,7 +21,11 @@ type
       fneedStaticController: Boolean;
       fstaticfilepath : string;
       frelativepath: string;
+      {$IFNDEF FPC}
       fmethod : TArray<string>;
+      {$ELSE}
+      fmethod : TFPGList<string>;
+      {$ENDIF}
       fisdefault: Boolean;
       procedure SetStaticFilePath(const Value: string);
     published
@@ -25,7 +35,6 @@ type
       property needStaticController : Boolean read fneedStaticController write fneedStaticController;
       property Methods : TArray<string> read fmethod write fmethod;
       function isValidMethod(const Method : string) : Boolean;
-
   end;
 
 implementation
