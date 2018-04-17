@@ -1,0 +1,44 @@
+{
+        "search_pathes": 
+	[
+		{
+			"pathes": "Src",
+			"platforms": "Win32;Win64"
+		}
+	],
+	"browsing_pathes": 
+	[
+		{
+			"pathes": "Src",
+			"platforms": "Win32;Win64"
+		}
+	],
+	
+	"source_folders":
+	[
+		{
+			"folder": "src",
+			"base": "src",
+			"recursive": true,
+			"filter": "*;*.*"
+		}
+	],
+
+    "raw_folders":
+    [
+        {
+        }
+    ],
+	
+	"projects":
+	[
+		{
+		}
+	],
+
+    "experts":
+    [
+           {
+           }
+    ]
+}
