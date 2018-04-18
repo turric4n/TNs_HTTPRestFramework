@@ -8,7 +8,6 @@ uses
   System.SyncObjs,
   System.SysUtils;
   {$ELSE}
-  syncobjs,
   Sysutils;
   {$ENDIF}
 

@@ -5,12 +5,7 @@ interface
 uses
   TNsRestFramework.Infrastructure.HTTPControllerFactory,
   TNsRestFramework.Infrastructure.HTTPServer,
-  TNsRestFramework.Infrastructure.LoggerFactory,
-  {$IFNDEF FPC}
-  System.SyncObjs;
-  {$ELSE}
-  SyncObjs;
-  {$ENDIF}
+  TNsRestFramework.Infrastructure.LoggerFactory;
 
 type
   THTTPServerFactory = class

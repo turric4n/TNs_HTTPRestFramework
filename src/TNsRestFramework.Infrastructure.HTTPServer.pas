@@ -38,7 +38,8 @@ implementation
 
 constructor TCustomHTTPServer.Create(const Port : string);
 begin
-  fhttpserver := THttpServer.Create(Port, nil, nil, 'CDI', 32);
+  fhttpserver := THttpServer.Create(Port, nil, nil, 'Test server', 32);
+  fhttpserver.ServerName := 'Test server';
   fhttpserver.OnRequest := ProcessRequest;
 end;
 

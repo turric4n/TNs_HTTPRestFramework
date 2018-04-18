@@ -4,6 +4,8 @@ unit TNsRestFramework.Application.Service;
   {$MODE Delphi}
 {$ENDIF}
 
+{$include synopse.inc}
+
 interface
 
 uses
@@ -12,8 +14,11 @@ uses
   System.Types,
 {$ELSE}
   Sysutils,
-  syncobjs,
   Types,
+  syncobjs,
+{$ENDIF}
+{$IFNDEF MSWINDOWS}
+  cthreads,
 {$ENDIF}
   TNsRestFramework.Infrastructure.TaskFactory,
   TNsRestFramework.Infrastructure.HTTPServerFactory,
@@ -21,6 +26,9 @@ uses
   TNsRestFramework.Infrastructure.LoggerFactory;
 
 type
+
+  { TApplicationService }
+
   TApplicationService = class
     private
       class procedure AliveTask(Sender : TSynBackground; Event : TWaitResult; const Msg : TSynBackgroudString);
@@ -41,6 +49,7 @@ implementation
 class procedure TApplicationService.InitBrokers;
 begin
   TTaskFactory.Init;
+  TTaskFactory.NewTask('Alive').Enable(AliveTask, 1);
   //Add background tasks if you need or use the factory instance
 end;
 

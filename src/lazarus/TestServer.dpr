@@ -23,7 +23,6 @@ begin
     Writeln('HTTP Server is listening at port 6060. Press a Key to stop service');
     Readln;
   except
-    on E: Exception do
-      Writeln(E.ClassName, ': ', E.Message);
+    on E: Exception do Writeln(E.ClassName, ': ', E.Message);
   end;
 end.

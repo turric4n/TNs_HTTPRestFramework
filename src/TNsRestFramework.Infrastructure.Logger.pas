@@ -8,8 +8,8 @@ uses
   Quick.Logger.Provider.Files,
   Quick.Logger.Provider.Console;
   {$ELSE}
-  SynCommons,
-  SynLog;
+  SynLog,
+  SynCommons;
   {$ENDIF}
 
 type

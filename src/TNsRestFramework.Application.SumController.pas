@@ -47,12 +47,12 @@ var
   y : Integer;
   sum : Integer;
 begin
-
   sum := 0;
   for x := 1 to High(Request.Parameters) do
   begin
     if TryStrToInt(Request.Parameters[x], y) then sum := sum + y;
   end;
+  Result := 200;
   Request.HTTPContext.OutContent := IntToStr(sum);
 end;
 
