@@ -7,9 +7,15 @@ uses
   TNsRestFramework.Infrastructure.HTTPRestRequest,
   TNsRestFramework.Infrastructure.HTTPRouting,
   TNsRestFramework.Infrastructure.HTTPController,
+  {$IFNDEF FPC}
   System.Classes,
   System.Generics.Collections,
   System.SysUtils;
+  {$ELSE}
+  Classes,
+  fgl,
+  sysutils;
+  {$ENDIF}
 
 type
   TRestDefaultStaticController = class(THTTPStaticController)
@@ -36,29 +42,43 @@ implementation
 
 function TRestDefaultStaticController.CanIHandleThis(const Filename: String): Boolean;
 var
-  ext : string;
+  ext, dta : string;
+  a : Integer;
 begin
   ext := string(Filename).Substring(Filename.LastIndexOf('.'));
+  {$IFNDEF FPC}
   Result := fstaticextensions.ContainsKey(ext);
+  {$ELSE}
+  Result := fstaticextensions.TryGetData(ext, dta);
+  {$ENDIF}
 end;
 
 constructor TRestDefaultStaticController.Create;
 begin
   fisdefault := False;
   fstaticdirectory := '.\statics';
+  {$IFNDEF FPC}
   fstaticextensions := TDictionary<string,string>.Create;
+  {$ELSE}
+  fstaticextensions := TFPGMap<string,string>.Create;
+  {$ENDIF}
   InitStaticTypes;
   froute := THTTPRoute.Create;
   froute.Name := 'statics';
   froute.IsDefault := True;
   froute.RelativePath := 'statics';
-  froute.Methods := ['GET', 'POST'];
+  froute.AddMethod('GET');
+  froute.AddMethod('POST');
   froute.needStaticController := True;
 end;
 
 function TRestDefaultStaticController.GetContentType(const strFile: string): string;
 begin
+  {$IFNDEF FPC}
   fstaticextensions.TryGetValue(strFile.Substring(strFile.LastIndexOf('.')), Result);
+  {$ELSE}
+  fstaticextensions.TryGetData(strFile.Substring(strFile.LastIndexOf('.')), Result);
+  {$ENDIF}
 end;
 
 function TRestDefaultStaticController.GetFilePath(Request: THTTPRestRequest) : string;
@@ -103,9 +123,15 @@ var
 begin
   try
     if not FileExists(Path) then raise Exception.Create('File not found');
+    {$IFNDEF FPC}
     fs := TStringStream.Create;
+    {$ENDIF}
     try
+      {$IFDEF FPC}
+      fs := TStringStream.Create(Path);
+      {$ELSE}
       fs.LoadFromFile(Path);
+      {$ENDIF}
       Request.HTTPContext.OutContent := fs.DataString;
       Request.HTTPContext.OutContentType := GetContentType(Path);
       Result := 200;

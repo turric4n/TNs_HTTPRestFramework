@@ -8,12 +8,13 @@ interface
 
 uses
 {$IFnDEF FPC}
-  System.SysUtils, System.Types,
+  System.SysUtils,
+  System.Types,
 {$ELSE}
   Sysutils,
+  syncobjs,
   Types,
 {$ENDIF}
-  Quick.Commons,
   TNsRestFramework.Application.Controllers,
   TNsRestFramework.Infrastructure.TaskFactory,
   TNsRestFramework.Infrastructure.HTTPServerFactory,
@@ -41,6 +42,7 @@ implementation
 class procedure TApplicationService.InitBrokers;
 begin
   TTaskFactory.Init;
+  //Add background tasks if you need or use the factory instance
 end;
 
 class procedure TApplicationService.InitControllers;

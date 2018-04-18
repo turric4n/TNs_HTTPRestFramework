@@ -28,6 +28,8 @@ type
     function CanIHandleThis(const Filename : string) : Boolean;
   end;
 
+  { THTTPController }
+
   THTTPController = class(TInterfacedObject, IController)
     protected
       fisdefault : Boolean;

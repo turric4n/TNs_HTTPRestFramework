@@ -6,7 +6,11 @@ uses
   TNsRestFramework.Infrastructure.HTTPControllerFactory,
   TNsRestFramework.Infrastructure.HTTPServer,
   TNsRestFramework.Infrastructure.LoggerFactory,
+  {$IFNDEF FPC}
   System.SyncObjs;
+  {$ELSE}
+  SyncObjs;
+  {$ENDIF}
 
 type
   THTTPServerFactory = class

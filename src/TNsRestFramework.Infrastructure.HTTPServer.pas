@@ -3,7 +3,11 @@ unit TNsRestFramework.Infrastructure.HTTPServer;
 interface
 
 uses
+  {$IFNDEF FPC}
   System.SysUtils,
+  {$ELSE}
+  sysutils,
+  {$ENDIF}
   SynCrtSock,
   SynCommons,
   TNsRestFramework.Infrastructure.HTTPControllerFactory,

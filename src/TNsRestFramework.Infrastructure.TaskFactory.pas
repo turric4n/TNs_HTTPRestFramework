@@ -3,7 +3,16 @@ unit TNsRestFramework.Infrastructure.TaskFactory;
 interface
 
 uses
-  System.Generics.Collections, SynCommons, System.SysUtils, System.SyncObjs;
+  SynCommons,
+  {$IFNDEF FPC}
+  System.Generics.Collections,
+  System.SysUtils,
+  System.SyncObjs;
+  {$ELSE}
+  fgl,
+  sysutils,
+  syncobjs;
+  {$ENDIF}
 
 type
   TSynBackground = TSynBackgroundTimer;
@@ -20,10 +29,18 @@ type
 
   TTaskFactory = class
     private
+      {$IFNDEF FPC}
       fTasks : TObjectlist<TTask>;
+      {$ELSE}
+      fTasks : TFPGObjectList<TTask>;
+      {$ENDIF}
     public
       class function NewTask(const Name : string) : TTask;
+      {$IFNDEF FPC}
       class function GetCurrentTasks : TObjectList<TTask>;
+      {$ELSE}
+      class function GetCurrentTasks : TFPGObjectList<TTask>;
+      {$ENDIF}
       class procedure AddTask(Task : TTask);
       class function GetTask(const Name : string) : TTask;
       class procedure RemoveTask(Task : TTask);
@@ -37,7 +54,11 @@ var
   TaskFactory : TTaskFactory;
   Lock : TCriticalSection;
 
+{$IFNDEF FPC}
 class function TTaskFactory.GetCurrentTasks : TObjectList<TTask>;
+{$ELSE}
+class function TTaskFactory.GetCurrentTasks : TFPGObjectList<TTask>;
+{$ENDIF}
 begin
   Lock.Acquire;
   try
@@ -67,7 +88,11 @@ begin
     if not Assigned(TaskFactory) then
     begin
       TaskFactory := TTaskFactory.Create;
+      {$IFNDEF FPC}
       TaskFactory.fTasks := TObjectList<TTask>.Create(True);
+      {$ELSE}
+      TaskFactory.fTasks := TFPGObjectList<TTask>.Create(True);
+      {$ENDIF}
     end;
   Finally
     Lock.Release;

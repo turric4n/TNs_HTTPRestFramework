@@ -4,8 +4,13 @@ interface
 
 uses
   TNsRestFramework.Infrastructure.Logger,
+  {$IFNDEF FPC}
   System.SyncObjs,
   System.SysUtils;
+  {$ELSE}
+  syncobjs,
+  Sysutils;
+  {$ENDIF}
 
 type
   TLoggerFactory = class

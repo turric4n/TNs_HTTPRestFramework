@@ -15,6 +15,9 @@ uses
   {$ENDIF}
 
 type
+
+  { THTTPRoute }
+
   THTTPRoute = class
     private
       fcontrollername: string;
@@ -27,13 +30,20 @@ type
       fmethod : TFPGList<string>;
       {$ENDIF}
       fisdefault: Boolean;
+      {$IFNDEF FPC}
+      property Methods : TArray<string> read fmethod write fmethod;
+      {$ELSE}
+      property Methods : TFPGList<string> read fmethod write fmethod;
+      {$ENDIF}
       procedure SetStaticFilePath(const Value: string);
     published
       property Name : string read fcontrollername write fcontrollername;
       property IsDefault : Boolean read fisdefault write fisdefault;
       property RelativePath : string read frelativepath write frelativepath;
       property needStaticController : Boolean read fneedStaticController write fneedStaticController;
-      property Methods : TArray<string> read fmethod write fmethod;
+      constructor Create;
+      destructor Destroy;
+      procedure AddMethod(const Method : string);
       function isValidMethod(const Method : string) : Boolean;
   end;
 
@@ -42,6 +52,29 @@ implementation
 procedure THTTPRoute.SetStaticFilePath(const Value: string);
 begin
   fstaticfilepath := IncludeTrailingBackslash(Value);
+end;
+
+constructor THTTPRoute.Create;
+begin
+  {$IFDEF FPC}
+     Methods := TFPGList<string>.Create;
+  {$ENDIF}
+end;
+
+destructor THTTPRoute.Destroy;
+begin
+  {$IFDEF FPC}
+     Methods.Free;
+  {$ENDIF}
+end;
+
+procedure THTTPRoute.AddMethod(const Method: string);
+begin
+  {$IFNDEF FPC}
+  Methods := Methods + Method;
+  {$ELSE}
+  Methods.Add(Method);
+  {$ENDIF}
 end;
 
 function THTTPRoute.isValidMethod(const Method: string): Boolean;
