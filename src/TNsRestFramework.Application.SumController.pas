@@ -34,7 +34,6 @@ constructor TRestSumController.Create;
 begin
   inherited;
   fisdefault := True;
-  froute := THTTPRoute.Create;
   froute.Name := 'sum';
   froute.IsDefault := True;
   froute.RelativePath := 'sum';

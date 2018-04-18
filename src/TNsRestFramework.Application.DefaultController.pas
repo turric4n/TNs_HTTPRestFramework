@@ -26,8 +26,8 @@ implementation
 
 constructor TRestDefaultController.Create;
 begin
+  inherited;
   fisdefault := True;
-  froute := THTTPRoute.Create;
   froute.Name := 'default';
   froute.IsDefault := True;
   froute.RelativePath := '/';

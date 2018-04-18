@@ -36,6 +36,8 @@ type
       frequest : THTTPRestRequest;
       froute : THTTPRoute;
     public
+      constructor Create;
+      destructor Destroy;
       function ProcessRequest(Request : THTTPRestRequest) : Cardinal; virtual; abstract;
       function GetRoute : THTTPRoute;
       function IsDefaultController : Boolean;
@@ -56,6 +58,18 @@ type
 implementation
 
 { TMVCController }
+
+constructor THTTPController.Create;
+begin
+  inherited;
+  froute := THTTPRoute.Create;
+end;
+
+destructor THTTPController.Destroy;
+begin
+  froute.Free;
+  inherited;
+end;
 
 function THTTPController.GetRoute: THTTPRoute;
 begin

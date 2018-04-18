@@ -15,7 +15,7 @@ uses
   SysUtils,
 {$ENDIF}
   TNsRestFramework.Application.Service,
-  TNsRestFramework.Application.Controllers;
+  TTestServer.Controllers;
 
 begin
   try

@@ -55,6 +55,7 @@ end;
 
 constructor TRestDefaultStaticController.Create;
 begin
+  inherited;
   fisdefault := False;
   fstaticdirectory := '.\statics';
   {$IFNDEF FPC}
@@ -63,7 +64,6 @@ begin
   fstaticextensions := TFPGMap<string,string>.Create;
   {$ENDIF}
   InitStaticTypes;
-  froute := THTTPRoute.Create;
   froute.Name := 'statics';
   froute.IsDefault := True;
   froute.RelativePath := 'statics';
