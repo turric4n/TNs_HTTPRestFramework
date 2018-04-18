@@ -14,7 +14,8 @@ uses
 {$ELSE}
   SysUtils,
 {$ENDIF}
-  TNsRestFramework.Application.Service;
+  TNsRestFramework.Application.Service,
+  TNsRestFramework.Application.Controllers;
 
 begin
   try

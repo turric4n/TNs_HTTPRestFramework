@@ -61,6 +61,9 @@
 *.tvsconfig
 *.dsk
 
+# Bin Directory
+bin/
+
 # Delphi history and backups
 __history/
 __recovery/

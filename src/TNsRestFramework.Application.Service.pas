@@ -15,7 +15,6 @@ uses
   syncobjs,
   Types,
 {$ENDIF}
-  TNsRestFramework.Application.Controllers,
   TNsRestFramework.Infrastructure.TaskFactory,
   TNsRestFramework.Infrastructure.HTTPServerFactory,
   TNsRestFramework.Infrastructure.HTTPControllerFactory,
