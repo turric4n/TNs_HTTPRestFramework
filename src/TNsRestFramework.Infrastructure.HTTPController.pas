@@ -11,8 +11,8 @@ uses
   System.Generics.Collections,
   {$ELSE}
   sysutils,
-  {$ENDIF}
   fgl,
+  {$ENDIF}
   TNsRestFramework.Infrastructure.HTTPRestRequest,
   TNsRestFramework.Infrastructure.HTTPRequest,
   TNsRestFramework.Infrastructure.HTTPRouting;

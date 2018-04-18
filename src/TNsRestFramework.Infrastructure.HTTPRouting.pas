@@ -71,7 +71,7 @@ end;
 procedure THTTPRoute.AddMethod(const Method: string);
 begin
   {$IFNDEF FPC}
-  Methods := Methods + Method;
+  Methods := Methods + [Method];
   {$ELSE}
   Methods.Add(Method);
   {$ENDIF}

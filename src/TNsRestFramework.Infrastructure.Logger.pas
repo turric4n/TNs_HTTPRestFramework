@@ -70,7 +70,8 @@ begin
   Result := Logger.Providers;
 end;
 
-{$ENDIF}
+{$ELSE}
+
 
 constructor TLogger.Create;
 var
@@ -93,6 +94,8 @@ begin
   if error then TSynLog.Add.Log(sllStackTrace,Line)
   else TSynLog.Add.Log(sllInfo,Line);
 end;
+
+{$ENDIF}
 
 
 end.
