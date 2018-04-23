@@ -6,7 +6,8 @@ program TestServer;
 
 uses
   System.SysUtils,
-  TNsRestFramework.Application.Service;
+  TNsRestFramework.Application.Service,
+  TTestServer.Controllers;
 
 begin
   try
