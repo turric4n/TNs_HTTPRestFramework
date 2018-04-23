@@ -4,7 +4,12 @@ Very simple Pascal (Delphi and FreePascal) HTTPRest Server based on SynopseHTTPS
 
 Dependancies : Synopse https://github.com/synopse/mORMot (Only low level units) for the HTTPServer. 
 
-TO-DO implement more HTTPServer engines.
+TO-DO : 
+
+# implement more HTTPServer engines.
+# implement view/template parser engine.
+
+
 
 Multiarch : i386, x86/64, ARM
 
