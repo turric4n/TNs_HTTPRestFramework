@@ -132,8 +132,8 @@ begin
       {$ELSE}
       fs.LoadFromFile(Path);
       {$ENDIF}
-      Request.HTTPContext.OutContent := fs.DataString;
-      Request.HTTPContext.OutContentType := GetContentType(Path);
+      Request.ResponseInfo.ContentText := fs.DataString;
+      Request.ResponseInfo.ContentType := GetContentType(Path);
       Result := 200;
     finally
       if fs <> nil then fs.Free;

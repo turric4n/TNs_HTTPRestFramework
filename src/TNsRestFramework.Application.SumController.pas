@@ -53,7 +53,7 @@ begin
     if TryStrToInt(Request.Parameters[x], y) then sum := sum + y;
   end;
   Result := 200;
-  Request.HTTPContext.OutContent := IntToStr(sum);
+  Request.ResponseInfo.ContentText := IntToStr(sum);
 end;
 
 initialization

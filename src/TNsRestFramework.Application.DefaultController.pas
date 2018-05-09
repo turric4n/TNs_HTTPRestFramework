@@ -38,7 +38,7 @@ end;
 function TRestDefaultController.ProcessRequest(Request: THTTPRestRequest): Cardinal;
 begin
   TLoggerFactory.GetInstance.Log('/default called', False);
-  Request.HTTPContext.OutContent := 'Hello World';
+  Request.ResponseInfo.ContentText := 'Hello World';
   Result := 200;
 end;
 
