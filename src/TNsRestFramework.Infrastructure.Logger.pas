@@ -6,7 +6,8 @@ uses
   {$IFNDEF FPC}
   Quick.Logger,
   Quick.Logger.Provider.Files,
-  Quick.Logger.Provider.Console;
+  Quick.Logger.Provider.Console,
+  Quick.Logger.ExceptionHook;
   {$ELSE}
   SynLog,
   SynCommons;

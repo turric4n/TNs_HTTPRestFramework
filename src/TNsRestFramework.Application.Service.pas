@@ -49,7 +49,7 @@ implementation
 class procedure TApplicationService.InitBrokers;
 begin
   TTaskFactory.Init;
-  TTaskFactory.NewTask('Alive').Enable(AliveTask, 1);
+  //TTaskFactory.NewTask('Alive').Enable(AliveTask, 1);
   //Add background tasks if you need or use the factory instance
 end;
 
@@ -82,6 +82,7 @@ end;
 class procedure TApplicationService.InitServer(ListeningPort : string);
 begin
   THTTPServerFactory.Init(ListeningPort);
+  THTTPServerFactory.GetCurrent.Start;
 end;
 
 class procedure TApplicationService.Log(const msg : string; errror: Boolean);

@@ -3,7 +3,6 @@ unit TNsRestFramework.Infrastructure.HTTPRouting;
 interface
 
 uses
-  SynCommons,
   {$IFNDEF FPC}
     System.Generics.Collections,
     System.JSON.Serializers,

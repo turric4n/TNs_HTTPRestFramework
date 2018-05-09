@@ -8,8 +8,9 @@ uses
   {$ELSE}
   sysutils,
   {$ENDIF}
-  SynCrtSock,
-  SynCommons,
+  IdHTTPServer,
+  IdContext,
+  IdCustomHTTPServer,
   TNsRestFramework.Infrastructure.HTTPControllerFactory,
   TNsRestFramework.Infrastructure.HTTPController,
   TNsRestFramework.Infrastructure.LoggerFactory,
@@ -23,8 +24,8 @@ type
 
   TCustomHTTPServer = class(TInterfacedObject, ICustomHTTPServer)
     private
-      fhttpserver : THttpServer;
-      function ProcessRequest(Ctxt: THttpServerRequest) : Cardinal;
+      fhttpserver : TIdHTTPServer;
+      procedure ProcessRequest(AContext: TIdContext; ARequestInfo: TIdHTTPRequestInfo; AResponseInfo: TIdHTTPResponseInfo);
     public
       procedure Start;
       procedure Stop;
@@ -38,9 +39,10 @@ implementation
 
 constructor TCustomHTTPServer.Create(const Port : string);
 begin
-  fhttpserver := THttpServer.Create(Port, nil, nil, 'Test server', 32);
-  fhttpserver.ServerName := 'Test server';
-  fhttpserver.OnRequest := ProcessRequest;
+  fhttpserver := TIdHTTPServer.Create(nil);
+  fhttpserver.DefaultPort := Port.ToInteger;
+  fhttpserver.ServerSoftware := 'Test server';
+  fhttpserver.OnCommandGet := ProcessRequest;
 end;
 
 destructor TCustomHTTPServer.Destroy;
@@ -48,22 +50,22 @@ begin
   fhttpserver.Free;
 end;
 
-function TCustomHTTPServer.ProcessRequest(Ctxt: THttpServerRequest): Cardinal;
+procedure TCustomHTTPServer.ProcessRequest(AContext: TIdContext; ARequestInfo: TIdHTTPRequestInfo; AResponseInfo: TIdHTTPResponseInfo);
 var
   controller : IController;
   request : THTTPRestRequest;
 begin
-  request := THTTPRestRequest.Create(Ctxt);
+  request := THTTPRestRequest.Create(AContext,ARequestInfo,AResponseInfo);
   try
     try
-      Result := THTTPControllerFactory.GetInstance.GetCurrentController(request).ProcessRequest(request);
+      AResponseInfo.ResponseNo := THTTPControllerFactory.GetInstance.GetCurrentController(request).ProcessRequest(request);
     except
       on e : Exception do
       begin
         TLoggerFactory.GetInstance.Log(e.Message, True);
-        Ctxt.OutContentType := 'text/plain';
-        Ctxt.OutContent := e.Message;
-        Result := 404;
+        AResponseInfo.ContentType := 'text/plain';
+        AResponseInfo.ContentText := e.Message;
+        AResponseInfo.ResponseNo := 404;
       end;
     end;
   finally
@@ -73,12 +75,12 @@ end;
 
 procedure TCustomHTTPServer.Start;
 begin
-  //
+  Self.fhttpserver.Active := True;
 end;
 
 procedure TCustomHTTPServer.Stop;
 begin
-  //
+  Self.fhttpserver.Active := False;
 end;
 
 end.

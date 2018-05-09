@@ -15,7 +15,6 @@ type
        fpath : string;
        fextraparams : TArray<string>;
        fparameters : TArray<string>;
-
        fmethod : string;
     public
       property BruteURL : string read fbruteurl write fbruteurl;
