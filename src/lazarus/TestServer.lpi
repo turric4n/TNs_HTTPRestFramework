@@ -46,8 +46,8 @@
     <Version Value="11"/>
     <PathDelim Value="\"/>
     <SearchPaths>
-      <IncludeFiles Value="$(ProjOutDir);..\..\..\mORMot\SQLite3;..\..\..\mORMot"/>
-      <OtherUnitFiles Value="..;..\test_commons;..\..\..\mORMot;..\..\..\mORMot\SQLite3"/>
+      <IncludeFiles Value="$(ProjOutDir)"/>
+      <OtherUnitFiles Value="..;..\test_commons"/>
       <UnitOutputDirectory Value="..\..\bin\$(TargetCPU)-$(TargetOS)"/>
     </SearchPaths>
     <Parsing>
