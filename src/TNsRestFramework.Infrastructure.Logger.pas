@@ -39,7 +39,6 @@ begin
   //Configure provider options
   with GlobalLogFileProvider do
   begin
-    FileName := 'RemotePublishAPI.log';
     DailyRotate := False;
     MaxRotateFiles := 5;
     MaxFileSizeInMB := 200;
