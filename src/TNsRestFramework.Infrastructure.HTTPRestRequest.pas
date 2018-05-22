@@ -43,7 +43,11 @@ begin
   fcontext := aContext;
   if Assigned(aRequestInfo.PostStream) then
   begin
+    {$IFNDEF FPC}
     stringstream := TStringStream.Create;
+    {$ELSE}
+    stringstream := TStringStream.Create('');
+    {$ENDIF}
     try
       stringstream.CopyFrom(aRequestInfo.PostStream, aRequestInfo.PostStream.Size);
       fincontent := stringstream.DataString;
