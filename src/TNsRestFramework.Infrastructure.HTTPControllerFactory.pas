@@ -68,7 +68,7 @@ end;
 
 class function THTTPControllerFactory.GetFactory: THTTPControllerFactory;
 begin
-  if Assigned(HTTPControllerFactory) then
+  if not Assigned(HTTPControllerFactory) then raise Exception.Create('HTTPControllerFactory not assigned!');
   Result := HTTPControllerFactory;
 end;
 
@@ -117,7 +117,6 @@ var
   controller : IController;
   defaultcontroller : IController;
   route : THTTPRoute;
-  methodurl : string;
 begin
   result := nil;
   defaultcontroller := nil;
