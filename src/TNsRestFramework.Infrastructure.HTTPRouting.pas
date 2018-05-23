@@ -41,7 +41,7 @@ type
       property RelativePath : string read frelativepath write frelativepath;
       property needStaticController : Boolean read fneedStaticController write fneedStaticController;
       constructor Create;
-      destructor Destroy;
+      destructor Destroy; override;
       procedure AddMethod(const Method : string);
       function isValidMethod(const Method : string) : Boolean;
   end;
@@ -50,7 +50,7 @@ implementation
 
 procedure THTTPRoute.SetStaticFilePath(const Value: string);
 begin
-  fstaticfilepath := IncludeTrailingBackslash(Value);
+  fstaticfilepath := IncludeTrailingPathDelimiter(Value);
 end;
 
 constructor THTTPRoute.Create;
@@ -80,6 +80,7 @@ function THTTPRoute.isValidMethod(const Method: string): Boolean;
 var
   str : string;
 begin
+  Result := False;
   for str in Methods do
   begin
     Result := str = Method;

@@ -37,7 +37,7 @@ type
       froute : THTTPRoute;
     public
       constructor Create;
-      destructor Destroy;
+      destructor Destroy; override;
       function ProcessRequest(Request : THTTPRestRequest) : Cardinal; virtual; abstract;
       function GetRoute : THTTPRoute;
       function IsDefaultController : Boolean;
