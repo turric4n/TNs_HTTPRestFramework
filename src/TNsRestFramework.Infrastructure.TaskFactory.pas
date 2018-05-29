@@ -103,6 +103,7 @@ class function TTaskFactory.IsThisTaskEnqueued(const Name : string): Boolean;
 var
   task : TTask;
 begin
+  Result := False;
   if Assigned(TaskFactory) then
   begin
     if Assigned(TaskFactory.fTasks) then
@@ -119,18 +120,14 @@ end;
 class function TTaskFactory.NewTask(const Name : string) : TTask;
 begin
   Lock.Acquire;
-  Try
-    if Assigned(TaskFactory) then
-    begin
-      if Assigned(TaskFactory.fTasks) then
-      begin
-        Result := TTask.Create(Name);
-        TaskFactory.fTasks.Add(Result);
-      end;
-    end;
-  Finally
+  try
+    if not Assigned(TaskFactory) then raise Exception.Create('TaskFactory not assigned!');
+    if not Assigned(TaskFactory.fTasks) then raise Exception.Create('Tasks not assigned!');
+    Result := TTask.Create(Name);
+    TaskFactory.fTasks.Add(Result);
+  finally
     Lock.Release;
-  End;
+  end;
 end;
 
 class procedure TTaskFactory.RemoveTask(Task: TTask);

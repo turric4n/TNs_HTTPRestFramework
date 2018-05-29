@@ -23,7 +23,7 @@ uses
   TNsRestFramework.Infrastructure.TaskFactory,
   TNsRestFramework.Infrastructure.HTTPServerFactory,
   TNsRestFramework.Infrastructure.HTTPControllerFactory,
-  TNsRestFramework.Infrastructure.LoggerFactory;
+  TNsRestFramework.Infrastructure.Services.Logger;
 
 type
 
@@ -36,7 +36,6 @@ type
       class procedure InitLogging;
       class procedure InitControllers;
       class procedure InitServer(ListeningPort : string);
-      class procedure Log(const msg : string; errror : Boolean);
     public
       class procedure Init(ListeningPort : string);
       class procedure Stop;
@@ -61,7 +60,7 @@ end;
 class procedure TApplicationService.AliveTask(Sender: TSynBackground;
   Event: TWaitResult; const Msg: TSynBackgroudString);
 begin
-  Log('Application check... Is alive.', False);
+  Logger.Info('Application check... Is alive.');
 end;
 
 class procedure TApplicationService.Init(ListeningPort : string);
@@ -75,8 +74,8 @@ end;
 
 class procedure TApplicationService.InitLogging;
 begin
-  TLoggerFactory.Init;
-  Log('TNs Publish Manager server init', False);
+  TServiceLogger.Init;
+  Logger.Info('TNs Publish Manager server init');
 end;
 
 class procedure TApplicationService.InitServer(ListeningPort : string);
@@ -85,15 +84,10 @@ begin
   THTTPServerFactory.GetCurrent.Start;
 end;
 
-class procedure TApplicationService.Log(const msg : string; errror: Boolean);
-begin
-  TLoggerFactory.GetInstance.Log(msg, errror);
-end;
-
 class procedure TApplicationService.Stop;
 begin
   //TO-DO Stop Service
-  Log('Service Stopped', False);
+  Logger.Info('Service Stopped');
 end;
 
 end.

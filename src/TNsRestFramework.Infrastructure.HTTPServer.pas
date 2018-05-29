@@ -13,7 +13,7 @@ uses
   IdCustomHTTPServer,
   TNsRestFramework.Infrastructure.HTTPControllerFactory,
   TNsRestFramework.Infrastructure.HTTPController,
-  TNsRestFramework.Infrastructure.LoggerFactory,
+  TNsRestFramework.Infrastructure.Services.Logger,
   TNsRestFramework.Infrastructure.HTTPRestRequest;
 
 type
@@ -62,7 +62,7 @@ begin
     except
       on e : Exception do
       begin
-        TLoggerFactory.GetInstance.Log(e.Message, True);
+        Logger.Error(e.Message);
         AResponseInfo.ContentType := 'text/plain';
         AResponseInfo.ContentText := e.Message;
         AResponseInfo.ResponseNo := 404;
