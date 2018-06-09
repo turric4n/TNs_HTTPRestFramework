@@ -1,4 +1,4 @@
-unit TNsRestFramework.Application.SumController;
+unit TTestServer.Application.SumController;
 
 interface
 
