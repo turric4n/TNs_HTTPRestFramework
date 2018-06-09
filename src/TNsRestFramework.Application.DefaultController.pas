@@ -6,8 +6,8 @@ uses
   TNsRestFramework.Infrastructure.HTTPControllerFactory,
   TNsRestFramework.Infrastructure.HTTPRestRequest,
   TNsRestFramework.Infrastructure.HTTPRouting,
-  TNsRestFramework.Infrastructure.LoggerFactory,
-  TNsRestFramework.Infrastructure.HTTPController;
+  TNsRestFramework.Infrastructure.HTTPController,
+  TNsRestFramework.Infrastructure.Services.Logger;
 
 type
   TRestDefaultController = class(THTTPController)
@@ -37,7 +37,7 @@ end;
 
 function TRestDefaultController.ProcessRequest(Request: THTTPRestRequest): Cardinal;
 begin
-  TLoggerFactory.GetInstance.Log('/default called', False);
+  Logger.Info('/default called');
   Request.ResponseInfo.ContentText := 'Hello World';
   Result := 200;
 end;

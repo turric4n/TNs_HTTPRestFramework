@@ -3,8 +3,6 @@ unit TNsRestFramework.Infrastructure.HTTPController;
 interface
 
 uses
-  SynCommons,
-  SynCrtSock,
   {$IFNDEF FPC}
   System.IOUtils,
   System.SysUtils,

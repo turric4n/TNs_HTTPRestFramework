@@ -4,8 +4,6 @@ unit TNsRestFramework.Application.Service;
   {$MODE Delphi}
 {$ENDIF}
 
-{$include synopse.inc}
-
 interface
 
 uses
@@ -20,7 +18,6 @@ uses
 {$IFNDEF MSWINDOWS}
   cthreads,
 {$ENDIF}
-  TNsRestFramework.Infrastructure.TaskFactory,
   TNsRestFramework.Infrastructure.HTTPServerFactory,
   TNsRestFramework.Infrastructure.HTTPControllerFactory,
   TNsRestFramework.Infrastructure.Services.Logger;
@@ -31,8 +28,6 @@ type
 
   TApplicationService = class
     private
-      class procedure AliveTask(Sender : TSynBackground; Event : TWaitResult; const Msg : TSynBackgroudString);
-      class procedure InitBrokers;
       class procedure InitLogging;
       class procedure InitControllers;
       class procedure InitServer(ListeningPort : string);
@@ -45,29 +40,15 @@ implementation
 
 { TApplicationService }
 
-class procedure TApplicationService.InitBrokers;
-begin
-  TTaskFactory.Init;
-  //TTaskFactory.NewTask('Alive').Enable(AliveTask, 1);
-  //Add background tasks if you need or use the factory instance
-end;
-
 class procedure TApplicationService.InitControllers;
 begin
   THTTPControllerFactory.Init;
-end;
-
-class procedure TApplicationService.AliveTask(Sender: TSynBackground;
-  Event: TWaitResult; const Msg: TSynBackgroudString);
-begin
-  Logger.Info('Application check... Is alive.');
 end;
 
 class procedure TApplicationService.Init(ListeningPort : string);
 begin
   //Init
   InitLogging;
-  InitBrokers;
   InitControllers;
   InitServer(ListeningPort);
 end;
