@@ -5,7 +5,7 @@ interface
 uses
   TNsRestFramework.Application.DefaultController,
   TNsRestFramework.Application.DefaultStaticController,
-  TNsRestFramework.Application.SumController;
+  TTestServer.Application.SumController;
 
 implementation
 
