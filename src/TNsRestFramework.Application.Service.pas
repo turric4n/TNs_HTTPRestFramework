@@ -56,7 +56,7 @@ end;
 class procedure TApplicationService.InitLogging;
 begin
   TServiceLogger.Init;
-  Logger.Info('TNs Publish Manager server init');
+  Logger.Info('TNs Server init');
 end;
 
 class procedure TApplicationService.InitServer(ListeningPort : string);
@@ -68,7 +68,7 @@ end;
 class procedure TApplicationService.Stop;
 begin
   //TO-DO Stop Service
-  Logger.Info('Service Stopped');
+  Logger.Info('TNs Server Stopped');
 end;
 
 end.

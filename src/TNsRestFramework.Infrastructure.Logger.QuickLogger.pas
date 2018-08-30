@@ -35,6 +35,8 @@ type
     {$IFNDEF FPC}
     function Providers : TLogProviderList;
     {$ENDIF}
+    procedure SetRotation(aRotationSizeInMB: Integer; aRotateEveryDay: Boolean; aMaxRotatedFiles: Integer; const aRotationFolder : string);
+    procedure SetLogLevel(aLevel : TNsLogLevel);
   end;
 
 implementation
@@ -48,7 +50,7 @@ begin
   begin
     DailyRotate := False;
     MaxRotateFiles := 5;
-    MaxFileSizeInMB := 200;
+    MaxFileSizeInMB := 20;
     LogLevel := LOG_ALL;
     Enabled := True;
   end;
@@ -113,7 +115,28 @@ begin
   Logger.Add(Line,Values,TEventType.etInfo);
 end;
 
-procedure TQuickLogger.Success(const Line: string; Values: array of const);
+procedure TQuickLogger.SetLogLevel(aLevel: TNsLogLevel);
+var
+  loglevel : TLogLevel;
+begin
+  case aLevel of
+    lvBASIC : loglevel := LOG_BASIC;
+    lvONLYERRORS : loglevel := LOG_ONLYERRORS;
+    lvALL : loglevel := LOG_ALL;
+  end;
+  GlobalLogFileProvider.LogLevel := loglevel;
+  GlobalLogConsoleProvider.LogLevel := loglevel;
+end;
+
+procedure TQuickLogger.SetRotation(aRotationSizeInMB: Integer; aRotateEveryDay: Boolean; aMaxRotatedFiles: Integer; const aRotationFolder : string);
+begin
+  GlobalLogFileProvider.MaxFileSizeInMB := aRotationSizeInMB;
+  GlobalLogFileProvider.DailyRotate := aRotateEveryDay;
+  GlobalLogFileProvider.MaxRotateFiles := aMaxRotatedFiles;
+  GlobalLogFileProvider.RotatedFilesPath := aRotationFolder;
+end;
+
+procedure TQuickLogger.Success(const Line: string; Values: array of TVarRec);
 begin
   Logger.Add(Line,Values,TEventType.etSuccess);
 end;
