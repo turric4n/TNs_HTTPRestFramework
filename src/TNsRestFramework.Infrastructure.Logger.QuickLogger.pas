@@ -2,16 +2,20 @@ unit TNsRestFramework.Infrastructure.Logger.QuickLogger;
 
 interface
 
+//Uses QuickLogger and QuickLib from my fellow Exilon. You need to grab from here : https://github.com/exilon/QuickLogger and https://github.com/exilon/QuickLib
+
 uses
   TNsRestFramework.Infrastructure.Interfaces.Logger,
+  {$IFNDEF FPC}
+  Quick.Logger.ExceptionHook,
+  {$ENDIF}
   Quick.Logger,
   Quick.Logger.Provider.Files,
-  Quick.Logger.Provider.Console,
-  {$IFNDEF FPC}
-  Quick.Logger.ExceptionHook
-  {$ENDIF};
+  Quick.Logger.Provider.Console;
 
 type
+
+  { TQuickLogger }
 
   TQuickLogger = class(TInterfacedObject, ILogger)
   public
@@ -89,37 +93,32 @@ begin
   Logger.Add(Line,TEventType.etDebug);
 end;
 
-function TQuickLogger.Providers: TLogProviderList;
-begin
-  Result := Logger.Providers;
-end;
-
-procedure TQuickLogger.Critical(const Line: string; Values: array of TVarRec);
+procedure TQuickLogger.Critical(const Line: string; Values: array of const);
 begin
   Logger.Add(Line,Values,TEventType.etCritical);
 end;
 
-procedure TQuickLogger.Debug(const Line: string; Values: array of TVarRec);
+procedure TQuickLogger.Debug(const Line: string; Values: array of const);
 begin
   Logger.Add(Line,Values,TEventType.etDebug);
 end;
 
-procedure TQuickLogger.Error(const Line: string; Values: array of TVarRec);
+procedure TQuickLogger.Error(const Line: string; Values: array of const);
 begin
   Logger.Add(Line,Values,TEventType.etError);
 end;
 
-procedure TQuickLogger.Info(const Line: string; Values: array of TVarRec);
+procedure TQuickLogger.Info(const Line: string; Values: array of const);
 begin
   Logger.Add(Line,Values,TEventType.etInfo);
 end;
 
-procedure TQuickLogger.Success(const Line: string; Values: array of TVarRec);
+procedure TQuickLogger.Success(const Line: string; Values: array of const);
 begin
   Logger.Add(Line,Values,TEventType.etSuccess);
 end;
 
-procedure TQuickLogger.Warning(const Line: string; Values: array of TVarRec);
+procedure TQuickLogger.Warning(const Line: string; Values: array of const);
 begin
   Logger.Add(Line,Values,TEventType.etWarning);
 end;

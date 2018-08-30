@@ -26,20 +26,19 @@
       <FormatVersion Value="2"/>
       <Modes Count="0"/>
     </RunParams>
-    <RequiredPackages Count="1">
+    <RequiredPackages Count="2">
       <Item1>
-        <PackageName Value="LCL"/>
+        <PackageName Value="indylaz"/>
       </Item1>
+      <Item2>
+        <PackageName Value="LCL"/>
+      </Item2>
     </RequiredPackages>
-    <Units Count="2">
+    <Units Count="1">
       <Unit0>
         <Filename Value="TestServer.dpr"/>
         <IsPartOfProject Value="True"/>
       </Unit0>
-      <Unit1>
-        <Filename Value="..\common\TNsRestFramework.Application.Service.pas"/>
-        <IsPartOfProject Value="True"/>
-      </Unit1>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
@@ -47,7 +46,7 @@
     <PathDelim Value="\"/>
     <SearchPaths>
       <IncludeFiles Value="$(ProjOutDir)"/>
-      <OtherUnitFiles Value="..;..\test_commons"/>
+      <OtherUnitFiles Value="..;..\test_commons;..\..\..\QuickLib;..\..\..\QuickLogger"/>
       <UnitOutputDirectory Value="..\..\bin\$(TargetCPU)-$(TargetOS)"/>
     </SearchPaths>
     <Parsing>
@@ -56,8 +55,6 @@
       </SyntaxOptions>
     </Parsing>
     <CodeGeneration>
-      <TargetCPU Value="x86_64"/>
-      <TargetOS Value="linux"/>
       <Optimizations>
         <OptimizationLevel Value="3"/>
       </Optimizations>
