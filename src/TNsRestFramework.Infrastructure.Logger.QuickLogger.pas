@@ -21,17 +21,17 @@ type
   public
     constructor Create;
     procedure Info(const Line : string); overload;
-    procedure Info(const Line : string; Values : array of {$IFDEF FPC}const{$ELSE}TVarRec{$ENDIF}); overload;
+    procedure Info(const Line : string; Values : array of const); overload;
     procedure Error(const Line : string); overload;
-    procedure Error(const Line : string; Values : array of {$IFDEF FPC}const{$ELSE}TVarRec{$ENDIF}); overload;
+    procedure Error(const Line : string; Values : array of const); overload;
     procedure Warning(const Line : string); overload;
-    procedure Warning(const Line : string; Values : array of {$IFDEF FPC}const{$ELSE}TVarRec{$ENDIF}); overload;
+    procedure Warning(const Line : string; Values : array of const); overload;
     procedure Success(const Line : string); overload;
-    procedure Success(const Line : string; Values : array of {$IFDEF FPC}const{$ELSE}TVarRec{$ENDIF}); overload;
+    procedure Success(const Line : string; Values : array of const); overload;
     procedure Critical(const Line : string); overload;
-    procedure Critical(const Line : string; Values : array of {$IFDEF FPC}const{$ELSE}TVarRec{$ENDIF}); overload;
+    procedure Critical(const Line : string; Values : array of const); overload;
     procedure Debug(const Line : string); overload;
-    procedure Debug(const Line : string; Values : array of {$IFDEF FPC}const{$ELSE}TVarRec{$ENDIF}); overload;
+    procedure Debug(const Line : string; Values : array of const); overload;
     {$IFNDEF FPC}
     function Providers : TLogProviderList;
     {$ENDIF}
@@ -115,6 +115,21 @@ begin
   Logger.Add(Line,Values,TEventType.etInfo);
 end;
 
+procedure TQuickLogger.Success(const Line: string; Values: array of const);
+begin
+  Logger.Add(Line,Values,TEventType.etSuccess);
+end;
+
+procedure TQuickLogger.Warning(const Line: string; Values: array of const);
+begin
+  Logger.Add(Line,Values,TEventType.etWarning);
+end;
+
+function TQuickLogger.Providers: TLogProviderList;
+begin
+  Result := Logger.Providers;
+end;
+
 procedure TQuickLogger.SetLogLevel(aLevel: TNsLogLevel);
 var
   loglevel : TLogLevel;
@@ -134,16 +149,6 @@ begin
   GlobalLogFileProvider.DailyRotate := aRotateEveryDay;
   GlobalLogFileProvider.MaxRotateFiles := aMaxRotatedFiles;
   GlobalLogFileProvider.RotatedFilesPath := aRotationFolder;
-end;
-
-procedure TQuickLogger.Success(const Line: string; Values: array of TVarRec);
-begin
-  Logger.Add(Line,Values,TEventType.etSuccess);
-end;
-
-procedure TQuickLogger.Warning(const Line: string; Values: array of const);
-begin
-  Logger.Add(Line,Values,TEventType.etWarning);
 end;
 
 end.
