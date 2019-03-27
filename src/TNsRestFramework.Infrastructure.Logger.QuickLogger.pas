@@ -130,7 +130,9 @@ begin
   Logger.Add(Line,Values,TEventType.etInfo);
 end;
 
-procedure TQuickLogger.Success(const Line: string; Values: array of const);
+procedure TQuickLogger.SetLogLevel(aLevel: TNsLogLevel);
+var
+  loglevel : TLogLevel;
 begin
   Logger.Add(Line,Values,TEventType.etSuccess);
 end;
@@ -140,7 +142,7 @@ begin
   Logger.Add(Line,Values,TEventType.etWarning);
 end;
 
-function TQuickLogger.Providers: TLogProviderList;
+procedure TQuickLogger.Success(const Line: string; Values: array of TVarRec);
 begin
   Result := Logger.Providers;
 end;
