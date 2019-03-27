@@ -22,7 +22,7 @@ implementation
 
 class procedure TServiceLogger.Init;
 begin
-  Logger := TLoggerFactory.CreateLogger;
+  if Logger = nil then Logger := TLoggerFactory.CreateLogger;
 end;
 
 

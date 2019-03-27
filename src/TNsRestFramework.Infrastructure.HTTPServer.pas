@@ -29,7 +29,7 @@ type
     public
       procedure Start;
       procedure Stop;
-      constructor Create(const Port : string);
+      constructor Create(const Port : Integer);
       destructor Destroy;
   end;
 
@@ -37,10 +37,10 @@ implementation
 
 { TCustomHTTPServer }
 
-constructor TCustomHTTPServer.Create(const Port : string);
+constructor TCustomHTTPServer.Create(const Port : Integer);
 begin
   fhttpserver := TIdHTTPServer.Create(nil);
-  fhttpserver.DefaultPort := Port.ToInteger;
+  fhttpserver.DefaultPort := Port;
   fhttpserver.ServerSoftware := 'Test server';
   fhttpserver.OnCommandGet := ProcessRequest;
 end;
