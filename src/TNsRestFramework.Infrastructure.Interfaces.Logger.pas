@@ -2,9 +2,11 @@ unit TNsRestFramework.Infrastructure.Interfaces.Logger;
 
 interface
 
-type
+uses
+  Quick.Logger,
+  TNsRestFramework.Infrastructure.Config;
 
-  TNsLogLevel = (lvBASIC, lvONLYERRORS, lvALL);
+type
 
   ILogger = interface['{6A46B7B0-17C1-4855-B48F-477AE6EBF8FD}']
     procedure Info(const Line : string); overload;
@@ -19,8 +21,10 @@ type
     procedure Critical(const Line : string; Values : array of const); overload;
     procedure Debug(const Line : string); overload;
     procedure Debug(const Line : string; Values : array of const); overload;
-    procedure SetRotation(aRotationSizeInMB: Integer; aRotateEveryDay: Boolean; aMaxRotatedFiles: Integer; const aRotationFolder : string);
-    procedure SetLogLevel(aLevel : TNsLogLevel);
+    procedure SetLogConsoleConfig(aConfig : TConsoleLogConfig);
+    procedure SetLogFileConfig(aConfig : TFileLogConfig);
+    function Providers : TLogProviderList;
+    function GetProviderByName(const aName : string) : TLogProviderBase;
   end;
 
 implementation

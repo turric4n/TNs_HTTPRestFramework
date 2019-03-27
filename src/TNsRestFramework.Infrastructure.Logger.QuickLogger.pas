@@ -5,19 +5,25 @@ interface
 //Uses QuickLogger and QuickLib from my fellow Exilon. You need to grab from here : https://github.com/exilon/QuickLogger and https://github.com/exilon/QuickLib
 
 uses
+  SysUtils,
   TNsRestFramework.Infrastructure.Interfaces.Logger,
+  System.Generics.Collections,
   {$IFNDEF FPC}
   Quick.Logger.ExceptionHook,
   {$ENDIF}
   Quick.Logger,
   Quick.Logger.Provider.Files,
-  Quick.Logger.Provider.Console;
+  Quick.Logger.Provider.Console,
+  TNsRestFramework.Infrastructure.Config;
 
 type
 
   { TQuickLogger }
 
   TQuickLogger = class(TInterfacedObject, ILogger)
+  private
+    procedure SetLogConsoleConfig(aConfig : TConsoleLogConfig);
+    procedure SetLogFileConfig(aConfig : TFileLogConfig);
   public
     constructor Create;
     procedure Info(const Line : string); overload;
@@ -35,8 +41,7 @@ type
     {$IFNDEF FPC}
     function Providers : TLogProviderList;
     {$ENDIF}
-    procedure SetRotation(aRotationSizeInMB: Integer; aRotateEveryDay: Boolean; aMaxRotatedFiles: Integer; const aRotationFolder : string);
-    procedure SetLogLevel(aLevel : TNsLogLevel);
+    function GetProviderByName(const aName : string) : TLogProviderBase;
   end;
 
 implementation
@@ -110,6 +115,16 @@ begin
   Logger.Add(Line,Values,TEventType.etError);
 end;
 
+function TQuickLogger.GetProviderByName(const aName: string): TLogProviderBase;
+var
+  provider : ILogProvider;
+begin
+  for provider in Logger.Providers do
+  begin
+    if CompareText(provider.GetName.ToLower,aName.ToLower) = 0 then Exit(TLogProviderBase(provider));
+  end;
+end;
+
 procedure TQuickLogger.Info(const Line: string; Values: array of const);
 begin
   Logger.Add(Line,Values,TEventType.etInfo);
@@ -130,25 +145,22 @@ begin
   Result := Logger.Providers;
 end;
 
-procedure TQuickLogger.SetLogLevel(aLevel: TNsLogLevel);
-var
-  loglevel : TLogLevel;
+procedure TQuickLogger.SetLogConsoleConfig(aConfig: TConsoleLogConfig);
 begin
-  case aLevel of
-    lvBASIC : loglevel := LOG_BASIC;
-    lvONLYERRORS : loglevel := LOG_ONLYERRORS;
-    lvALL : loglevel := LOG_ALL;
-  end;
-  GlobalLogFileProvider.LogLevel := loglevel;
-  GlobalLogConsoleProvider.LogLevel := loglevel;
+  GlobalLogConsoleProvider.LogLevel := aConfig.LogLevel;
+  GlobalLogConsoleProvider.Enabled := aConfig.Enabled;
 end;
 
-procedure TQuickLogger.SetRotation(aRotationSizeInMB: Integer; aRotateEveryDay: Boolean; aMaxRotatedFiles: Integer; const aRotationFolder : string);
+procedure TQuickLogger.SetLogFileConfig(aConfig: TFileLogConfig);
 begin
-  GlobalLogFileProvider.MaxFileSizeInMB := aRotationSizeInMB;
-  GlobalLogFileProvider.DailyRotate := aRotateEveryDay;
-  GlobalLogFileProvider.MaxRotateFiles := aMaxRotatedFiles;
-  GlobalLogFileProvider.RotatedFilesPath := aRotationFolder;
+  GlobalLogFileProvider.FileName := aConfig.FileName;
+  GlobalLogFileProvider.MaxFileSizeInMB := aConfig.RotateSizeInMB;
+  GlobalLogFileProvider.DailyRotate := aConfig.RotateEveryDay;
+  GlobalLogFileProvider.MaxRotateFiles := aConfig.MaxRotatedFiles;
+  GlobalLogFileProvider.RotatedFilesPath := aConfig.RotationFolder;
+  GlobalLogFileProvider.LogLevel := aConfig.LogLevel;
+  GlobalLogFileProvider.Enabled := aConfig.Enabled;
 end;
+
 
 end.

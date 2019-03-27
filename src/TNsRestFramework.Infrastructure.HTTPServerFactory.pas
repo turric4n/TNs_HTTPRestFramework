@@ -12,7 +12,7 @@ type
     protected
       fserver : ICustomHTTPServer;
     public
-      class procedure Init(const Port : string);
+      class procedure Init(Port : Integer);
       class function GetCurrent : ICustomHTTPServer;
       destructor Destroy; override;
   end;
@@ -36,7 +36,7 @@ begin
   Result := HTTPServerFactory.fserver;
 end;
 
-class procedure THTTPServerFactory.Init(const Port : string);
+class procedure THTTPServerFactory.Init(Port : Integer);
 begin
   if not Assigned(HTTPServerFactory) then
   begin
