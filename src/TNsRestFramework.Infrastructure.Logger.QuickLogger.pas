@@ -9,7 +9,7 @@ uses
   TNsRestFramework.Infrastructure.Interfaces.Logger,
   System.Generics.Collections,
   {$IFNDEF FPC}
-  Quick.Logger.ExceptionHook,
+  Quick.Logger.UnhandledExceptionHook,
   {$ENDIF}
   Quick.Logger,
   Quick.Logger.Provider.Files,
@@ -57,7 +57,7 @@ begin
     MaxRotateFiles := 5;
     MaxFileSizeInMB := 20;
     LogLevel := LOG_ALL;
-    Enabled := True;
+    Enabled := False;
   end;
   with GlobalLogConsoleProvider do
   begin
@@ -68,6 +68,8 @@ begin
   //Add Log File and console providers
   Logger.Providers.Add(GlobalLogFileProvider);
   Logger.Providers.Add(GlobalLogConsoleProvider);
+  Logger.RedirectOwnErrorsToProvider := GlobalLogFileProvider;
+  Logger.WaitForFlushBeforeExit := 30;
 end;
 
 procedure TQuickLogger.Info(const Line: string);
