@@ -5,11 +5,12 @@ interface
 uses
   Classes,
   SysUtils,
-  System.Generics.Collections,
   {$IFDEF FPC}
+  Generics.Collections,
   fpjson,
   Quick.Files,
   {$ELSE}
+  System.Generics.Collections,
   System.IOUtils,
   {$ENDIF}
   Quick.Config.Json,
@@ -47,10 +48,10 @@ type
     fAutoReload : Boolean;
   public
     procedure DefaultValues; override;
+    property Logger : TLoggerConfig read fLogger write fLogger;
   published
     property Host : string read fHost write fHost;
     property Port : Integer read fPort write fPort;
-    property Logger : TLoggerConfig read fLogger write fLogger;
     property AutoReload : Boolean read fAutoReload write fAutoReload;
   end;
 

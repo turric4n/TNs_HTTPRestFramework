@@ -3,6 +3,7 @@ unit TNsRestFramework.Infrastructure.HTTPRequest;
 interface
 
 {$IFDEF FPC}
+{$MODE DELPHI}
   uses
   sysutils;
 {$ENDIF}

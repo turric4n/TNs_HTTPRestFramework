@@ -7,9 +7,9 @@ interface
 uses
   SysUtils,
   TNsRestFramework.Infrastructure.Interfaces.Logger,
-  System.Generics.Collections,
   {$IFNDEF FPC}
   Quick.Logger.UnhandledExceptionHook,
+  System.Generics.Collections,
   {$ENDIF}
   Quick.Logger,
   Quick.Logger.Provider.Files,
@@ -38,9 +38,7 @@ type
     procedure Critical(const Line : string; Values : array of const); overload;
     procedure Debug(const Line : string); overload;
     procedure Debug(const Line : string; Values : array of const); overload;
-    {$IFNDEF FPC}
     function Providers : TLogProviderList;
-    {$ENDIF}
     function GetProviderByName(const aName : string) : TLogProviderBase;
   end;
 

@@ -9,6 +9,7 @@ uses
     System.SysUtils;
   {$ELSE}
     {$M+}
+    Generics.Collections,
     sysutils,
     fgl;
   {$ENDIF}

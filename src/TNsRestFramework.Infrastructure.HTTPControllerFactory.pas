@@ -136,7 +136,7 @@ begin
     end
     else 
     begin
-      if (Request.Parameters[0] = route.RelativePath) and (route.isValidMethod(Request.Method)) then
+      if (string.CompareText(Request.Parameters[0], route.RelativePath) = 0) and (route.isValidMethod(Request.Method)) then
       begin
         Result := Controller;
         Exit;
