@@ -80,8 +80,15 @@ begin
   InitLogging;
   InitControllers;
   ApplyConfig;
-  if aConfig.Port > 0 then InitServer(aConfig.Port)
+  if aConfig <> nil then
+  begin
+    if aConfig.Port > 0 then InitServer(aConfig.Port)
     else InitServer(ListeningPort);
+  end
+  else
+  begin
+    InitServer(ListeningPort);
+  end;
 end;
 
 class procedure TApplicationService.InitLogging;
