@@ -7,9 +7,9 @@ interface
 uses
   SysUtils,
   TNsRestFramework.Infrastructure.Interfaces.Logger,
+  System.Generics.Collections,
   {$IFNDEF FPC}
   Quick.Logger.UnhandledExceptionHook,
-  System.Generics.Collections,
   {$ENDIF}
   Quick.Logger,
   Quick.Logger.Provider.Files,
@@ -38,7 +38,9 @@ type
     procedure Critical(const Line : string; Values : array of const); overload;
     procedure Debug(const Line : string); overload;
     procedure Debug(const Line : string; Values : array of const); overload;
+    {$IFNDEF FPC}
     function Providers : TLogProviderList;
+    {$ENDIF}
     function GetProviderByName(const aName : string) : TLogProviderBase;
   end;
 
@@ -130,21 +132,14 @@ begin
   Logger.Add(Line,Values,TEventType.etInfo);
 end;
 
-procedure TQuickLogger.SetLogLevel(aLevel: TNsLogLevel);
-var
-  loglevel : TLogLevel;
+function TQuickLogger.Providers: TLogProviderList;
 begin
-  Logger.Add(Line,Values,TEventType.etSuccess);
+  Result := Logger.Providers;
 end;
 
 procedure TQuickLogger.Warning(const Line: string; Values: array of const);
 begin
   Logger.Add(Line,Values,TEventType.etWarning);
-end;
-
-procedure TQuickLogger.Success(const Line: string; Values: array of TVarRec);
-begin
-  Result := Logger.Providers;
 end;
 
 procedure TQuickLogger.SetLogConsoleConfig(aConfig: TConsoleLogConfig);
@@ -164,5 +159,10 @@ begin
   GlobalLogFileProvider.Enabled := aConfig.Enabled;
 end;
 
+
+procedure TQuickLogger.Success(const Line: string; Values: array of const);
+begin
+  Logger.Succ(Line, Values);
+end;
 
 end.
